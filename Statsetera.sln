@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statsetera", "Statsetera\Statsetera.csproj", "{3D1FBE08-99F1-4D7B-8791-85D83F18DD9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statsetera.Tests", "Statsetera.Tests\Statsetera.Tests.csproj", "{2EE6D1DF-0E34-44FF-A868-65CEA4042246}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D1FBE08-99F1-4D7B-8791-85D83F18DD9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1FBE08-99F1-4D7B-8791-85D83F18DD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1FBE08-99F1-4D7B-8791-85D83F18DD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1FBE08-99F1-4D7B-8791-85D83F18DD9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE6D1DF-0E34-44FF-A868-65CEA4042246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE6D1DF-0E34-44FF-A868-65CEA4042246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE6D1DF-0E34-44FF-A868-65CEA4042246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE6D1DF-0E34-44FF-A868-65CEA4042246}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
