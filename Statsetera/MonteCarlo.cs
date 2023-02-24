@@ -10,9 +10,24 @@ namespace Statsetera;
 
 public static class MonteCarlo
 {
+    /// <summary>
+    /// Returns a Mersenne twister instance with default seed and multi-threading setting
+    /// </summary>
+    /// <param name="seed"></param>
+    /// <returns></returns>
     public static RandomSource DefaultRandomSource(int? seed = null) => 
         seed.HasValue ? new MersenneTwister(seed.Value) :
             new MersenneTwister();
+
+    /// <summary>
+    /// Naive integration using Monte Carlo Estimator
+    /// </summary>
+    /// <param name="n">Number of uniform random numbers to generate</param>
+    /// <param name="a">integrate from a</param>
+    /// <param name="b">integrate to b</param>
+    /// <param name="f">the function to integrate</param>
+    /// <param name="rng">random number generator.  default is a new instance of Mersenee twister created by DefaultRandomSource</param>
+    /// <returns>the integration of the function f from a to b</returns>
     public static double NaiveIntegrate(int n, double a, double b, 
         Func<double, double> f, RandomSource? rng = null)
     {
@@ -25,6 +40,15 @@ public static class MonteCarlo
             .Average();
     }
 
+    /// <summary>
+    /// Generates a path of a random walk
+    /// </summary>
+    /// <param name="threshold">probability for choosing value a</param>
+    /// <param name="a">this value will be added to the previous point with probability specified in the threshold parameter</param>
+    /// <param name="b">this value will be added to the previous point if a is not chosen</param>
+    /// <param name="rng">random number generator.  default is a new instance of Mersenee twister created by DefaultRandomSource</param>
+    /// <returns>a sequence representing the path of a random walk</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IEnumerable<int> RandomWalk(double threshold = 0.5,
         int a = 1, int b = -1, RandomSource? rng = null)
     {
@@ -39,6 +63,15 @@ public static class MonteCarlo
             (acc, current) => (current <= threshold) ? acc + a : acc + b);
     }
 
+    /// <summary>
+    /// Yet another implementation of the linear congruent random number generator.  Do NOT use
+    /// </summary>
+    /// <param name="seed"></param>
+    /// <param name="range"></param>
+    /// <param name="multiplier"></param>
+    /// <param name="increment"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IEnumerable<int> LinearCongruent(int seed, int range, 
         int multiplier, int increment)
     {
