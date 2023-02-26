@@ -45,28 +45,38 @@ public class TestStats
     {
         double[] data = new double[] { 1.0, 5.0, 4.0, 4.0, 2.0, 3.0, 2.0, 1.0 };
         var F = Stats.EmpiricalDistributionFunction(data);
-        Console.WriteLine(F(-10.0));
-        Assert.AreEqual(F(-10.0), 0);
+        double p, l, u = 0;
 
-        Console.WriteLine(F(1.0));
-        Assert.AreEqual(F(1.0), 0.25);
-        
-        Console.WriteLine(F(2.0));
-        Assert.AreEqual(F(2.0), 0.5);
+        (p, l, u) = F(-10.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 0);
 
-        Console.WriteLine(F(3.0));
-        Assert.AreEqual(F(3.0), 0.625);
+        (p, l, u) = F(1.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 0.25);
 
-        Console.WriteLine(F(4.0));
-        Assert.AreEqual(F(4.0), 0.875);
+        (p, l, u) = F(2.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 0.5);
 
-        Console.WriteLine(F(4.8));
-        Assert.AreEqual(F(4.8), 0.875);
+        (p, l, u) = F(3.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 0.625);
 
-        Console.WriteLine(F(5.0));
-        Assert.AreEqual(F(5.0), 1.0);
+        (p, l, u) = F(4.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 0.875);
 
-        Console.WriteLine(F(100.0));
-        Assert.AreEqual(F(100.0), 1.0);
+        (p, l, u) = F(4.8, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 0.875);
+
+        (p, l, u) = F(5.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 1.0);
+
+        (p, l, u) = F(100.0, 0.05);
+        Console.WriteLine(p);
+        Assert.AreEqual(p, 1.0);
     }
 }

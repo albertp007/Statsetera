@@ -217,8 +217,8 @@ public static class Stats
     /// </summary>
     /// <param name="data">the input sequence of data</param>
     /// <returns>a function which takes a double value x and returns the fraction of data items which has value smaller than x, i.e. the probability of the event X < x</returns>
-    public static Func<double, double> EmpiricalDistributionFunction(
-        IEnumerable<double> data)
+    public static Func<double, double, (double, double, double)>
+        EmpiricalDistributionFunction(IEnumerable<double> data)
     {
         IEnumerable<double> sorted = data.OrderBy(x => x);
         // sorted set is for doing close match later
@@ -232,7 +232,7 @@ public static class Stats
             sortedSet.Add(t);
             fTable[t] = count;
         }
-        return x =>
+        Func<double, double> cdf = x =>
         {
             if (x < sortedSet.Min)
             {
@@ -244,9 +244,20 @@ public static class Stats
             }
             else
             {
-                double lower = sortedSet.GetViewBetween(double.MinValue, x).Max;
-                return fTable[lower] / (double)count;
+                double low = sortedSet.GetViewBetween(double.MinValue, x).Max;
+                return fTable[low] / (double)count;
             }
+        };
+        Func<double, double> epsilon = alpha => 
+            Math.Sqrt(Math.Log(2 / alpha) / count / 2);
+
+        return (x, alpha) =>
+        {
+            var p = cdf(x);
+            var e = epsilon(alpha);
+            var l = Math.Max(p - e, 0);
+            var u = Math.Min(p + e, 1);
+            return (p, l, u);
         };
     }
 }
