@@ -125,4 +125,28 @@ public static class Utils
     /// <param name="f">function to be applied to the input value</param>
     /// <returns>the output of function f</returns>
     public static T2 Then<T1, T2>(this T1 t1, Func<T1, T2> f) => f(t1);
+    
+    /// <summary>
+    /// Extension function to unzip an enumerable of pairs into 2 enumerables
+    /// </summary>
+    /// <typeparam name="T1">type of the first element of the pair</typeparam>
+    /// <typeparam name="T2">type of the second element of the pair</typeparam>
+    /// <param name="seq">input sequence</param>
+    /// <returns>a pair of IEnumerable of type T1 and T2</returns>
+    public static (IEnumerable<T1>, IEnumerable<T2>)
+    Unzip<T1, T2>(this IEnumerable<(T1, T2)> seq) =>
+        (seq.Select(x => x.Item1), seq.Select(x => x.Item2));
+
+    /// <summary>
+    /// Extension function to unzip an enumerable of triplets into 3 enumerables
+    /// </summary>
+    /// <typeparam name="T1">type of the first element of the triplet</typeparam>
+    /// <typeparam name="T2">type of the second element of the triplet</typeparam>
+    /// <typeparam name="T3">type of the third element of the triplet</typeparam>
+    /// <param name="seq">input sequence</param>
+    /// <returns>a triplet of IEnumerables of type T1, T2 and T3</returns>
+    public static (IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>) 
+        Unzip<T1, T2, T3>(this IEnumerable<(T1, T2, T3)> seq) =>
+            (seq.Select(x => x.Item1), seq.Select(x => x.Item2),
+             seq.Select(x => x.Item3));
 }

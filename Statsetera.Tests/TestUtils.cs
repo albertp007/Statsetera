@@ -51,4 +51,31 @@ public class TestUtils
 
         CollectionAssert.AreEqual(new (int, int)[] { (1, 10) }, lag4);
     }
+    [TestMethod]
+    public void TestUnzip2()
+    {
+        var s = new (int, int)[]
+        {
+            (1, 2),
+            (4, 5),
+            (7, 8)
+        };
+        var res = s.Unzip();
+        CollectionAssert.AreEqual(new int[] { 1, 4, 7 }, res.Item1.ToArray());
+        CollectionAssert.AreEqual(new int[] { 2, 5, 8 }, res.Item2.ToArray());
+    }
+    [TestMethod]
+    public void TestUnzip3()
+    {
+        var s = new (int, int, int) []
+        {
+            (1, 2, 3),
+            (4, 5, 6),
+            (7, 8, 9)
+        };
+        var res = s.Unzip();
+        CollectionAssert.AreEqual(new int[] { 1, 4, 7 }, res.Item1.ToArray());
+        CollectionAssert.AreEqual(new int[] { 2, 5, 8 }, res.Item2.ToArray());
+        CollectionAssert.AreEqual(new int[] { 3, 6, 9 }, res.Item3.ToArray());
+    }
 }
