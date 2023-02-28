@@ -78,4 +78,58 @@ public class TestUtils
         CollectionAssert.AreEqual(new int[] { 2, 5, 8 }, res.Item2.ToArray());
         CollectionAssert.AreEqual(new int[] { 3, 6, 9 }, res.Item3.ToArray());
     }
+    [TestMethod]
+    public void TestUnzip4()
+    {
+        var s = new (int, int, int, int)[]
+        {
+            (1, 2, 3, 4),
+            (4, 5, 6, 7),
+            (7, 8, 9, 10)
+        };
+        var res = s.Unzip();
+        CollectionAssert.AreEqual(new int[] { 1, 4, 7 }, res.Item1.ToArray());
+        CollectionAssert.AreEqual(new int[] { 2, 5, 8 }, res.Item2.ToArray());
+        CollectionAssert.AreEqual(new int[] { 3, 6, 9 }, res.Item3.ToArray());
+        CollectionAssert.AreEqual(new int[] { 4, 7, 10 }, 
+            res.Item4.ToArray());
+    }
+    [TestMethod]
+    public void TestUnzip5()
+    {
+        var s = new (int, int, int, int, int)[]
+        {
+            (1, 2, 3, 4, 5),
+            (4, 5, 6, 7, 8),
+            (7, 8, 9, 10, 11)
+        };
+        var res = s.Unzip();
+        CollectionAssert.AreEqual(new int[] { 1, 4, 7 }, res.Item1.ToArray());
+        CollectionAssert.AreEqual(new int[] { 2, 5, 8 }, res.Item2.ToArray());
+        CollectionAssert.AreEqual(new int[] { 3, 6, 9 }, res.Item3.ToArray());
+        CollectionAssert.AreEqual(new int[] { 4, 7, 10 },
+            res.Item4.ToArray());
+        CollectionAssert.AreEqual(new int[] { 5, 8, 11 },
+            res.Item5.ToArray());
+    }
+    [TestMethod]
+    public void TestUnzip6()
+    {
+        var s = new (int, int, int, int, int, int)[]
+        {
+            (1, 2, 3, 4, 5, 6),
+            (4, 5, 6, 7, 8, 9),
+            (7, 8, 9, 10, 11, 12)
+        };
+        var res = s.Unzip();
+        CollectionAssert.AreEqual(new int[] { 1, 4, 7 }, res.Item1.ToArray());
+        CollectionAssert.AreEqual(new int[] { 2, 5, 8 }, res.Item2.ToArray());
+        CollectionAssert.AreEqual(new int[] { 3, 6, 9 }, res.Item3.ToArray());
+        CollectionAssert.AreEqual(new int[] { 4, 7, 10 },
+            res.Item4.ToArray());
+        CollectionAssert.AreEqual(new int[] { 5, 8, 11 },
+            res.Item5.ToArray());
+        CollectionAssert.AreEqual(new int[] { 6, 9, 12 },
+            res.Item6.ToArray());
+    }
 }

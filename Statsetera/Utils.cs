@@ -116,7 +116,7 @@ public static class Utils
     /// <returns>a composite function the equivalent of g(f(x))</returns>
     public static Func<A, C> Then<A, B, C>(this Func<A, B> f, Func<B, C> g)
     => (n) => g(f(n));
-    
+
     /// <summary>
     /// Extension function which applies a function f to an input type T1 and transforms it into a type T2. This facilitates the piping of output of one function to another function.
     /// <typeparam name="T1">input type of the function</typeparam>
@@ -125,7 +125,7 @@ public static class Utils
     /// <param name="f">function to be applied to the input value</param>
     /// <returns>the output of function f</returns>
     public static T2 Then<T1, T2>(this T1 t1, Func<T1, T2> f) => f(t1);
-    
+
     /// <summary>
     /// Extension function to unzip an enumerable of pairs into 2 enumerables
     /// </summary>
@@ -145,8 +145,70 @@ public static class Utils
     /// <typeparam name="T3">type of the third element of the triplet</typeparam>
     /// <param name="seq">input sequence</param>
     /// <returns>a triplet of IEnumerables of type T1, T2 and T3</returns>
-    public static (IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>) 
+    public static (IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>)
         Unzip<T1, T2, T3>(this IEnumerable<(T1, T2, T3)> seq) =>
             (seq.Select(x => x.Item1), seq.Select(x => x.Item2),
              seq.Select(x => x.Item3));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <typeparam name="T3"></typeparam>
+    /// <typeparam name="T4"></typeparam>
+    /// <param name="seq"></param>
+    /// <returns></returns>
+    public static (IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>,
+        IEnumerable<T4>)
+        Unzip<T1, T2, T3, T4>(this IEnumerable<(T1, T2, T3, T4)> seq) => (
+            seq.Select(x => x.Item1),
+            seq.Select(x => x.Item2),
+            seq.Select(x => x.Item3),
+            seq.Select(x => x.Item4)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <typeparam name="T3"></typeparam>
+    /// <typeparam name="T4"></typeparam>
+    /// <typeparam name="T5"></typeparam>
+    /// <param name="seq"></param>
+    /// <returns></returns>
+    public static (IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>,
+        IEnumerable<T4>, IEnumerable<T5>)
+        Unzip<T1, T2, T3, T4, T5>(
+        this IEnumerable<(T1, T2, T3, T4, T5)> seq) => (
+            seq.Select(x => x.Item1),
+            seq.Select(x => x.Item2),
+            seq.Select(x => x.Item3),
+            seq.Select(x => x.Item4),
+            seq.Select(x => x.Item5)
+        );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <typeparam name="T3"></typeparam>
+    /// <typeparam name="T4"></typeparam>
+    /// <typeparam name="T5"></typeparam>
+    /// <typeparam name="T6"></typeparam>
+    /// <param name="seq"></param>
+    /// <returns></returns>
+    public static (IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>,
+        IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>)
+        Unzip<T1, T2, T3, T4, T5, T6>(
+        this IEnumerable<(T1, T2, T3, T4, T5, T6)> seq) => (
+            seq.Select(x => x.Item1),
+            seq.Select(x => x.Item2),
+            seq.Select(x => x.Item3),
+            seq.Select(x => x.Item4),
+            seq.Select(x => x.Item5),
+            seq.Select(x => x.Item6)
+        );
 }
