@@ -260,4 +260,25 @@ public static class Stats
             return (p, l, u);
         };
     }
+
+    /// <summary>
+    /// Generic function for bootstrap resampling to calculate a statistic and its standard error
+    /// </summary>
+    /// <typeparam name="T">type of the input data</typeparam>
+    /// <param name="samples">the input samples</param>
+    /// <param name="n">number of rounds of resampling</param>
+    /// <param name="resample">function that does the resampling given the original samples</param>
+    /// <param name="statistic">function to calculate the statistic given the re-sampled samples</param>
+    /// <returns>a pair with the calculated statistic in the first element and its standard error in the second element</returns>
+    public static (double, double) Bootstrap<T>(
+        this IEnumerable<T> samples, int n,
+        Func<T[], T[]> resample, 
+        Func<T[], double> statistic)
+    {
+        var sampleArray = samples.ToArray();
+        var bootstrap = Enumerable.Range(0, n)
+            .Select(_ => resample(sampleArray))
+            .Select(sample => statistic(sample));
+        return (bootstrap.Average(), bootstrap.PopulationStdDev());
+    }
 }
