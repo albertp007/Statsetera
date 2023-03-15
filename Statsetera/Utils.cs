@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MathNet.Numerics.Random;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +11,15 @@ namespace Statsetera;
 
 public static class Utils
 {
+    /// <summary>
+    /// Returns a Mersenne twister instance with default seed and multi-threading setting
+    /// </summary>
+    /// <param name="seed"></param>
+    /// <returns></returns>
+    public static RandomSource DefaultRandomSource(int? seed = null) =>
+        seed.HasValue ? new MersenneTwister(seed.Value) :
+            new MersenneTwister();
+
     /// <summary>
     /// Lags a sequence of items
     /// </summary>
@@ -211,4 +223,100 @@ public static class Utils
             seq.Select(x => x.Item5),
             seq.Select(x => x.Item6)
         );
+
+    /// <summary>
+    /// Partition a subarray of an array inline into a section which is smaller than the pivot and a section which is larger. The pivot is taken to be the last element of the sub-array.  The elements of the array outside of the subarray is intact.  Note that this function updates the input array inline. 
+    /// </summary>
+    /// <typeparam name="T">type of the array</typeparam>
+    /// <param name="a">the array</param>
+    /// <param name="x">the starting index of the sub-array. Default to 0</param>
+    /// <param name="y">the ending index of the sub-array (inclusive), nullable.  If null, default to ending index of the array</param>
+    /// <returns>the index of the pivot in the final array</returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static int Partition<T>(T[] a, int x = 0, int? y = null)
+        where T : IComparable<T>
+    {
+        y ??= a.Length - 1;
+        // y is used repeatedly, worth storing its value in an int to avoid
+        // calling the Value property all the time
+        int end = y.Value;
+        if ( end >=  a.Length)
+        {
+            throw new ArgumentException($"y must not be larger than or equal to the size of the array {a.Length}");
+        }
+        if ( x < 0 )
+        {
+            throw new ArgumentException("x must not be smaller than 0");
+        }
+        if ( x > end )
+        {
+            throw new ArgumentException("x must not be larger than y");
+        }
+        T pivot = a[end];
+        int i = x - 1;
+        for (int j = x; j < end; ++j)
+        {
+            if (a[j].CompareTo(pivot) <= 0 )
+            {
+                ++i;
+                (a[i], a[j]) = (a[j], a[i]);
+            }
+        }
+        (a[i+1], a[end]) = (a[end], a[i+1]);
+        return i+1;
+    }
+    /// <summary>
+    /// Implements the RandomizedSelect algorithm, which selects the k-th smallest element from a sub-array of an array with O(n) expected time complexity according to Cormen et al.
+    /// </summary>
+    /// <typeparam name="T">type of the elements in the array</typeparam>
+    /// <param name="SelectPivot">a function to select a pivot index given the starting and ending index (both inclusive)</param>
+    /// <param name="a">the array of data</param>
+    /// <param name="k">the k-th smallest element to be found by this function</param>
+    /// <param name="x">the starting index of the sub-array, default to 0</param>
+    /// <param name="y">the ending index of the sub-array (inclusive), nullable.  If null, default to ending index of the array</param>
+    /// <returns>the k-th smallest element in the input array</returns>
+    public static T Select<T>(Func<int,int,int> SelectPivot, T[] a, int k, 
+        int x = 0, int? y = null)
+        where T: IComparable<T>
+    {
+        y ??= a.Length - 1;
+        int end = y.Value;
+        if ( x == end )
+        {
+            return a[x];
+        }
+        int selectedPivotIndex = SelectPivot(x, end);
+        (a[selectedPivotIndex], a[end]) = (a[end], a[selectedPivotIndex]);
+        int pivotIndex = Partition(a, x, end);
+        int z = pivotIndex - x + 1;
+        if ( k == z )
+        {
+            return a[pivotIndex];
+        }
+        else if (k < z)
+        {
+            return Select(SelectPivot, a, k, x, pivotIndex - 1);
+        }
+        else
+        {
+            return Select(SelectPivot, a, k - z, pivotIndex + 1, end);
+        }
+    }
+    /// <summary>
+    /// Implements the RandomizedSelect algorithm, which selects the k-th smallest element from a sub-array of an array with O(n) expected time complexity according to Cormen et al.  This is a convenient version of the function which instantiates a default random source.
+    /// 
+    /// </summary>
+    /// <typeparam name="T">type of the elements in the array</typeparam>
+    /// <param name="a">the array of data</param>
+    /// <param name="k">the k-th smallest element to be found by this function</param>
+    /// <param name="x">the starting index of the sub-array, default to 0</param>
+    /// <param name="y">the ending index of the sub-array (inclusive), nullable.  If null, default to ending index of the array</param>
+    /// <returns>the k-th smallest element in the input array</returns>
+    public static T RandomizedSelect<T>(T[] a, int k, int x = 0, int? y = null)
+        where T: IComparable<T>
+    {
+        RandomSource rng = DefaultRandomSource();
+        // RandomSource.Next takes max as exclusive, therefore plus one below
+        return Select((s, e) => rng.Next(s, e+1), a, k, x, y);
+    }
 }

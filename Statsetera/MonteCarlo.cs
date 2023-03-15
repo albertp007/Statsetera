@@ -11,15 +11,6 @@ namespace Statsetera;
 public static class MonteCarlo
 {
     /// <summary>
-    /// Returns a Mersenne twister instance with default seed and multi-threading setting
-    /// </summary>
-    /// <param name="seed"></param>
-    /// <returns></returns>
-    public static RandomSource DefaultRandomSource(int? seed = null) => 
-        seed.HasValue ? new MersenneTwister(seed.Value) :
-            new MersenneTwister();
-
-    /// <summary>
     /// Naive integration using Monte Carlo Estimator
     /// </summary>
     /// <param name="n">Number of uniform random numbers to generate</param>
@@ -31,7 +22,7 @@ public static class MonteCarlo
     public static double NaiveIntegrate(int n, double a, double b, 
         Func<double, double> f, RandomSource? rng = null)
     {
-        rng ??= DefaultRandomSource();
+        rng ??= Utils.DefaultRandomSource();
         var randomSeq = rng.NextDoubleSequence();
         return randomSeq
             .Take(n)
@@ -57,7 +48,7 @@ public static class MonteCarlo
             throw new ArgumentOutOfRangeException(
                 "threshold probability must be between 0 and 1 inclusive");
         }
-        rng ??= DefaultRandomSource();
+        rng ??= Utils.DefaultRandomSource();
         var randomSeq = rng.NextDoubleSequence();
         return randomSeq.Accumulate(0,
             (acc, current) => (current <= threshold) ? acc + a : acc + b);

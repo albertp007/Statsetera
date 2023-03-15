@@ -41,7 +41,7 @@ public class TestMonteCarlo
     public void TestRandomWalk()
     {
         var result = MonteCarlo.RandomWalk(
-            rng: MonteCarlo.DefaultRandomSource(0)).Take(20).ToArray();
+            rng: Utils.DefaultRandomSource(0)).Take(20).ToArray();
         foreach (int i in result)
         {
             Console.Write($"{i},");
@@ -62,7 +62,7 @@ public class TestMonteCarlo
     {
         // integrating quarter circle
         double s = MonteCarlo.NaiveIntegrate(100000, 0, 1,
-            x => Math.Sqrt(1 - x * x), rng: MonteCarlo.DefaultRandomSource(0));
+            x => Math.Sqrt(1 - x * x), rng: Utils.DefaultRandomSource(0));
         Console.WriteLine($"pi estimate = {s * 4}");
         Assert.AreEqual(3.146137693090427, s*4, 1e-15);
     }

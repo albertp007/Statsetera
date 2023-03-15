@@ -132,4 +132,22 @@ public class TestUtils
         CollectionAssert.AreEqual(new int[] { 6, 9, 12 },
             res.Item6.ToArray());
     }
+    [TestMethod]
+    public void TestPartition()
+    {
+        var s = new int[] { 2, 8, 7, 1, 3, 5, 6, 4 };
+        int i = Utils.Partition(s);
+        CollectionAssert.AreEqual(new int[] { 2, 1, 3, 4, 7, 5, 6, 8 }, s);
+        Assert.AreEqual(3, i);
+    }
+    [TestMethod]
+    public void TestRandomizedSelect()
+    {
+        var s = new int[] { 2, 8, 7, 1, 3, 5, 6, 4 };
+        int fourth = Utils.RandomizedSelect(s, 4);
+        Assert.AreEqual(4, fourth);
+
+        int fifth = Utils.RandomizedSelect(s, 5);
+        Assert.AreEqual(5, fifth);
+    }
 }
